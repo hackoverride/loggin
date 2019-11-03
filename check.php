@@ -8,8 +8,8 @@
 
 <?php
   $access = false;
-  $name = $_POST["name"];
-  $pass = $_POST["password"];
+  $name = $_POST["brukernavn"];
+  $pass = $_POST["passord"];
   
   /*HARDCODE: if ($name == "Admin" && $pass == "Password1") {
   echo '';
