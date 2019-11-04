@@ -12,7 +12,6 @@
         <?php
 
         $ny = $_POST["new"];
-        $aktiv = false;
         if ($ny == "on"){
             
             //Sjekk om brukernavn allerede finnes.
@@ -20,9 +19,8 @@
             
         } else {
             //sjekker DB om bruker eksisterer og om passord stemmer...
-            brukerSjekk("sjekk");
             
-            if ($aktiv){
+            if (brukerSjekk("sjekk")){
                 echo 'Velkommen! Du har tastet riktig brukernavn og passord.';
             //Kode her!
             } else {
@@ -30,12 +28,11 @@
             }
         }
         
-        
         function brukerSjekk($inn){
-            $servername = " x";
-            $username = " x";
-            $password = " x";
-            $dbname = " x";
+            $servername = "********";
+            $username = "********";
+            $password = "********";
+            $dbname = "********";
             
             // Create connection
             $conn = new mysqli($servername, $username, $password, $dbname);
@@ -52,19 +49,16 @@
             // output data of each row
                 while($row = $result->fetch_assoc()) {
                     if ($row["Bruker"] == $_POST["bruker"] && $row["Passord"] == $_POST["passord"]){
-                        $aktiv = true;
+                        return true;
                     }
-                    
-                    
-                    
                 }
             } else {
-            echo "Ingen brukere med det brukernavnet.";
+            return false;
             }
             
             } else if ($inn == "ny") {
                 $kom = date("j F Y");
-                $sql = "INSERT INTO `Brukere`(`Bruker`, `Fornavn`, `Etternavn`, `Passord`, `Kommentar`) VALUES (".$_POST['bruker'].",".$_POST['bruker'].",'N/A',".$_POST['passord'].",".$kom.")";
+                $sql = "INSERT INTO `Brukere`(`Bruker`, `Fornavn`, `Etternavn`, `Passord`, `Kommentar`) VALUES ('".$_POST['bruker']."','".$_POST['fnavn']."','".$_POST["enavn"]."','".$_POST['passord']."','".$kom."')";
                 $result = $conn->query($sql);
                 if ($conn->query($sql) === TRUE) {
                     echo "New record created successfully";
@@ -73,10 +67,9 @@
                 }
             }
             $conn->close();
+            return false;
         }
-        
         ?>
-        
         
     </body>
 </html>
